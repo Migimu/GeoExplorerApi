@@ -28,7 +28,7 @@ public class UsuarioController {
 	/******************** INSERTAR ********************/
 	/**************************************************/
 
-	@PostMapping("/new")
+	@PostMapping("/add")
 	public void insertarUsuario(@RequestBody Usuarios nuevoUsuario) {
 		usuarioRepository.save(nuevoUsuario);
 	}
@@ -37,30 +37,31 @@ public class UsuarioController {
 	/********************** LEER **********************/
 	/**************************************************/
 
-	@GetMapping("/all")
+	@GetMapping("/getAll")
 	public List<Usuarios> getUsuarios() {
 		List<Usuarios> listaUsuarios = usuarioRepository.findAll();
 		return listaUsuarios;
 	}
 
-	@GetMapping("/getById/{id}")
+	@GetMapping("/getId/{id}")
 	public Optional<Usuarios> getById(@PathVariable String id){
 
 		return usuarioRepository.findById(id);
 	}
 
 	//lo mismo que el getById, pero en vez de un optional, devuelve un list
-	@GetMapping("/getAllById/{id}")
+	@GetMapping("/getAllId/{id}")
 	public List<Usuarios> getAllById(@PathVariable String id) {
 		return usuarioRepository.findUsuarioById(id);
 	}
 
-	@GetMapping("/getByUsuario/{usuario}")
+	@GetMapping("/getUsuario/{usuario}")
 	public List<Usuarios> getUsuariosByUsuario(@PathVariable String usuario) {
 		return usuarioRepository.findByUsuario(usuario);
 	}
 
-	@GetMapping("/getByUsuario/{usuario}/{contraseña}/{rol}")
+	//para hacer el login
+	@GetMapping("/getLogin/{usuario}/{contraseña}/{rol}")
 	public List<Usuarios> getUsuariosByUsuarioContraseñaRol(@PathVariable String usuario, @PathVariable String contraseña, @PathVariable String rol) {
 		return usuarioRepository.findUsuarioByUsuarioAndContraseñaAndRol(usuario,contraseña,rol);
 	}
@@ -69,7 +70,7 @@ public class UsuarioController {
 	/******************* MODIFICAR ********************/
 	/**************************************************/
 
-	@PutMapping("/updateContraseñaById/{id}/{contraseña}")
+	@PutMapping("/editContraseñaId/{id}/{contraseña}")
 	public void updateContraseñaById(@PathVariable String id, @PathVariable String contraseña){
 
 		Query query = new Query(Criteria.where("id").is(id));
@@ -79,7 +80,7 @@ public class UsuarioController {
 	}
 
 	/*DUDAS DE SI ES ASI*/
-	@PutMapping("/updateUsuario/{id}")
+	@PutMapping("/editUsuario/{id}")
 	public void bajarSalario(@PathVariable String id, @RequestBody Usuarios nuevoUsuario) {
 
 		List<Usuarios> listaUsuarios = usuarioRepository.findAll();
@@ -119,12 +120,12 @@ public class UsuarioController {
 	/********************* BORRAR *********************/
 	/**************************************************/
 
-	@DeleteMapping("/deleteById/{id}")
+	@DeleteMapping("/deleteId/{id}")
 	public void delete(@PathVariable String id) {
 		usuarioRepository.deleteById(id);
 	}
 
-	@DeleteMapping("/deleteByUsername/{username}")
+	@DeleteMapping("/deleteUsername/{username}")
 	public void deleteByUsername(@PathVariable String username) {
 		usuarioRepository.deleteByUsuario(username);
 	}

@@ -27,36 +27,36 @@ public class RutaController {
 
 	/***********************CREAR***********************/
 
-	@PostMapping("/nuevo")
+	@PostMapping("/add")
 	public void insertarRuta(@RequestBody Rutas nuevaRuta) {
 		rutaRepository.save(nuevaRuta);
 	}
 
 	/***********************LEER***********************/
 
-	@GetMapping("/leer")
+	@GetMapping("/getAll")
 	public List<Rutas> leerRutas() {
 		return rutaRepository.findAll();
 	}
 
-	@GetMapping("/leer/{id}")
+	@GetMapping("/getId/{id}")
 	public Optional<Rutas> leerRutaId(@PathVariable String id) {
 		return rutaRepository.findById(id);
 	}
 
-	@GetMapping("/leer/{nombre}")
+	@GetMapping("/getNombre/{nombre}")
 	public List<Rutas> leerRutaNombre(@PathVariable String nombre) {
 		return rutaRepository.findByNombre(nombre);
 	}
 	
-	@GetMapping("/leer/ciudad/{ciudad}")
+	@GetMapping("/getCiudad/{ciudad}")
 	public List<Rutas> leerRutaCiudad(@PathVariable String ciudad) {
 		return rutaRepository.findRutaByCiudad(ciudad);
 	}
 
 	/***********************EDITAR***********************/
 
-	@PutMapping("/editar/{id}")
+	@PutMapping("/editId/{id}")
 	public List<Rutas> editarRutaId(@PathVariable String id, @RequestBody Rutas ruta){
 		List<Rutas> rutas = rutaRepository.findAllById(id);
 		for (Rutas ruta1 : rutas){
@@ -73,7 +73,7 @@ public class RutaController {
 		return rutaRepository.saveAll(rutas);
 	}
 
-	@PutMapping("/editar/{nombre}")
+	@PutMapping("/editNombre/{nombre}")
 	public List<Rutas> editarRutaNombre(@PathVariable String nombre, @RequestBody Rutas ruta){
 		List<Rutas> rutas = rutaRepository.findByNombre(nombre);
 		for (Rutas ruta1 : rutas){
@@ -92,12 +92,12 @@ public class RutaController {
 
 	/***********************ELIMINAR***********************/
 
-	@DeleteMapping("/eliminar")
+	@DeleteMapping("/deleteAll")
 	public void eliminarRuta(@RequestBody Rutas ruta) {
 		rutaRepository.deleteAll();
 	}
 
-	@DeleteMapping("/eliminarPorId/{id}")
+	@DeleteMapping("/deleteId/{id}")
 	public void eliminarRutaId(@PathVariable String id) {
 		//primero tiene que eliminar las localizaciones
 		localizacionRepository.deleteByRutaId(id);
@@ -105,7 +105,7 @@ public class RutaController {
 		rutaRepository.deleteById(id);
 	}
 
-	@DeleteMapping("/eliminar/{nombre}")
+	@DeleteMapping("/deleteNombre/{nombre}")
 	public void eliminarRutaNombre(@PathVariable String nombre) {
 		rutaRepository.deleteByNombre(nombre);
 	}

@@ -27,7 +27,7 @@ public class RutaUsuarioController {
 	/******************** INSERTAR ********************/
 	/**************************************************/
 
-	@PostMapping("/new")
+	@PostMapping("/add")
 	public void insertarUsuario(@RequestBody RutaUsuario nuevaRutaUsuario) {
 		rutaUsuarioRepository.save(nuevaRutaUsuario);
 	}
@@ -36,13 +36,13 @@ public class RutaUsuarioController {
 	/********************** LEER **********************/
 	/**************************************************/
 
-	@GetMapping("/all")
+	@GetMapping("/getAll")
 	public List<RutaUsuario> getRutaUsuario() {
 		List<RutaUsuario> listaRutasUsuarios = rutaUsuarioRepository.findAll();
 		return listaRutasUsuarios;
 	}
 
-	@GetMapping("/getById/{id}")
+	@GetMapping("/getId/{id}")
 	public Optional<RutaUsuario> getById(@PathVariable String id){
 		return rutaUsuarioRepository.findById(id);
 	}
@@ -66,7 +66,7 @@ public class RutaUsuarioController {
 	/**************************************************/
 
 
-	@PutMapping("/updatePuntuacion/{id}/{puntuacion}")
+	@PutMapping("/editPuntuacion/{id}/{puntuacion}")
 	public void updatePuntuacion(@PathVariable String id, @PathVariable int puntuacion) {
 
 		Query query = new Query(Criteria.where("id").is(id));
@@ -76,7 +76,7 @@ public class RutaUsuarioController {
 	 }
 
 
-	@PutMapping("/rutaUsuarioActivar/{id}")
+	@PutMapping("/editRutaUsuarioActivar/{id}")
 	public void conectarUsuario(@PathVariable String id){
 
 		Query query = new Query(Criteria.where("id").is(id));
@@ -85,7 +85,7 @@ public class RutaUsuarioController {
 
 	}
 
-	@PutMapping("/rutaUsuarioDesactivar/{id}")
+	@PutMapping("/editRutaUsuarioDesactivar/{id}")
 	public void desconectarUsuario(@PathVariable String id){
 
 		Query query = new Query(Criteria.where("id").is(id));
@@ -99,17 +99,17 @@ public class RutaUsuarioController {
 	/********************* BORRAR *********************/
 	/**************************************************/
 
-	@DeleteMapping("/deleteById/{id}")
+	@DeleteMapping("/deleteId/{id}")
 	public void delete(@PathVariable String id) {
 		rutaUsuarioRepository.deleteById(id);
 	}
 
-	@DeleteMapping("/deleteByUsuarioId/{id}")
+	@DeleteMapping("/deleteUsuarioId/{id}")
 	public void deleteByUsuarioId(@PathVariable String id) {
 		rutaUsuarioRepository.deleteByUsuarioId(id);
 	}
 
-	@DeleteMapping("/deleteByRutaId/{id}")
+	@DeleteMapping("/deleteRutaId/{id}")
 	public void deleteByRutaId(@PathVariable String id) {
 		rutaUsuarioRepository.deleteByRutaId(id);
 	}

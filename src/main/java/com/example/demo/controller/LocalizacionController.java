@@ -32,31 +32,31 @@ public class LocalizacionController {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	/*
-	 * CREATE
-	 * 			*/
+	/***********************************************************
+	 ********************** CREATE *****************************
+	 ***********************************************************/
 	//Crear una localización nueva
-	@PostMapping("/nuevo")
+	@PostMapping("/add")
 	public void insertarLocalizacion(@RequestBody Localizaciones nuevaLocalizacion) {
 		localizacionRepository.save(nuevaLocalizacion);
 	}
 
-	/********
-	 * READ
-	 *******/
+	/***********************************************************
+	 ********************** READ *******************************
+	 ***********************************************************/
 	//todas
-	@GetMapping("/todas")
+	@GetMapping("/getAll")
 	public List<Localizaciones> allLocalizaciones(){
 		return localizacionRepository.findAll();
 	}
 
 	//por nombre
-	@GetMapping("/porNombre/{nombre}")
+	@GetMapping("/getNombre/{nombre}")
 	public List<Localizaciones> getByName(@PathVariable String nombre) {
 		return localizacionRepository.findByNombre(nombre);
 	}
 	//por id
-	@GetMapping("/porId/{id}")
+	@GetMapping("/getId/{id}")
     public Localizaciones getById(@PathVariable String id) {
       return localizacionRepository.findById(id).orElse(null);
     }
@@ -68,7 +68,7 @@ public class LocalizacionController {
 	 }
 	
 	//por id ruta
-	@GetMapping("/porIdRuta/{ruta_id}")
+	@GetMapping("/getIdRuta/{ruta_id}")
     public List<Localizaciones> getByIdRuta(@PathVariable String ruta_id) {
 		List<Localizaciones> listaLocalizaciones = localizacionRepository.findAll();
 		for(Localizaciones l : listaLocalizaciones){
@@ -81,9 +81,9 @@ public class LocalizacionController {
 		return listaLocalizaciones;
     }
 
-	/*************
-	 * UPDATE (edit)
-	 *************/
+	/***********************************************************
+	 ********************** UPDATE ******************************
+	 ***********************************************************/
 	//Editar una localización
 	@PutMapping("/editId/{id}")
 	public List<Localizaciones> editarPorId(@PathVariable String id, @RequestBody Localizaciones nuevaLocalizacion) {
@@ -125,19 +125,19 @@ public class LocalizacionController {
 
 	}
 
-	/*********
-	 * DELETE
-	 *********/
+	/***********************************************************
+	 ********************** DELETE *****************************
+	 ***********************************************************/
 	//Eliminar TODAS las localizaciones
-	 @DeleteMapping("/eliminarTodas") void deleteAll() {
+	 @DeleteMapping("/deleteAll") void deleteAll() {
 		localizacionRepository.deleteAll();
 	}
 	//Eliminar UNA localizacion
-	@DeleteMapping("/eliminarPorId/{id}") void deleteLocalizacionId(@PathVariable String id) {
+	@DeleteMapping("/deleteId/{id}") void deleteLocalizacionId(@PathVariable String id) {
 		localizacionRepository.deleteById(id);
 	}
 	//Eliminar localización por nombre
-	@DeleteMapping("/eliminarPorNombre/{nombre}") void deleteLocalizacionNombre(@PathVariable String nombre) {
+	@DeleteMapping("/deleteNombre/{nombre}") void deleteLocalizacionNombre(@PathVariable String nombre) {
 		localizacionRepository.deleteByNombre(nombre);
 	}
 	
