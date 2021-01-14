@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.model.Localizaciones;
 import com.example.demo.model.Rutas;
 import com.example.demo.repository.LocalizacionRepository;
 import com.example.demo.repository.RutaRepository;
@@ -54,6 +55,8 @@ public class RutaController {
 		return rutaRepository.findRutaByCiudad(ciudad);
 	}
 
+	
+	
 	/***********************EDITAR***********************/
 
 	@PutMapping("/editId/{id}")
@@ -90,6 +93,13 @@ public class RutaController {
 		return rutaRepository.saveAll(rutas);
 	}
 
+	//update localizaciones de la ruta
+	@PutMapping("/editLocalizacion")
+	public Rutas editarRutaLocalizacion(@RequestBody Rutas ruta){
+		List<Localizaciones> listaLocalizaciones = localizacionRepository.findByRutaId(ruta.getId());
+		ruta.setListaLocalizaciones(listaLocalizaciones);
+		return rutaRepository.save(ruta);
+	}
 	/***********************ELIMINAR***********************/
 
 	@DeleteMapping("/deleteAll")

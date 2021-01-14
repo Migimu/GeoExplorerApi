@@ -18,7 +18,7 @@ public class Rutas {
 	private String transporte; //DUDA
 	private String imagen;
 	private int dificultad; //DUDA
-	private List<String> listaLocalizaciones;
+	private List<Localizaciones> listaLocalizaciones;
 
 	public String getId() {
 		return id;
@@ -47,7 +47,7 @@ public class Rutas {
 	public int getDificultad() {
 		return dificultad;
 	}
-	public List<String> getListaLocalizaciones() {
+	public List<Localizaciones> getListaLocalizaciones() {
 		return listaLocalizaciones;
 	}
 
@@ -79,7 +79,7 @@ public class Rutas {
 	public void setDificultad(int dificultad) {
 		this.dificultad = dificultad;
 	}
-	public void setListaLocalizaciones(List<String> listaLocalizaciones) {
+	public void setListaLocalizaciones(List<Localizaciones> listaLocalizaciones) {
 		this.listaLocalizaciones = listaLocalizaciones;
 	}
 
@@ -89,7 +89,7 @@ public class Rutas {
 	}
 
 	public Rutas(String id, String nombre, String ciudad, String tematica, float duracion, String descripcion,
-			String transporte, String imagen, int dificultad) {
+			String transporte, String imagen, int dificultad, List<Localizaciones> listaLocalizaciones) {
 		this.id = id;
 		this.nombre = nombre;
 		this.ciudad = ciudad;
@@ -99,6 +99,7 @@ public class Rutas {
 		this.transporte = transporte;
 		this.imagen = imagen;
 		this.dificultad = dificultad;
+		this.listaLocalizaciones=listaLocalizaciones;
 	}
 
 

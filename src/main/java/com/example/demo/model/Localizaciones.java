@@ -16,9 +16,8 @@ public class Localizaciones {
 	private boolean oculta;
 	private String pista;
 	private String imagenPista;
-	
 	private String rutaId;
-	private List<String> Pregunta;
+	private Preguntas pregunta;
 
 	public String getId() {
 		return id;
@@ -44,8 +43,8 @@ public class Localizaciones {
 	public String getRutaId() {
 		return rutaId;
 	}
-	public List<String> getListaPreguntas() {
-		return Pregunta;
+	public Preguntas getPregunta() {
+		return pregunta;
 	}
 
 
@@ -73,15 +72,15 @@ public class Localizaciones {
 	public void setRutaId(String rutaId) {
 		this.rutaId = rutaId;
 	}
-	public void setListaPreguntas(List<String> listaPreguntas) {
-		this.Pregunta = listaPreguntas;
+	public void setPregunta(Preguntas pregunta) {
+		this.pregunta = pregunta;
 	}
 
 	public Localizaciones() {
 
 	}
 
-	public Localizaciones(String id, String nombre, float latitud, float longitud, boolean oculta, String pista, String imagenPista, String rutaId) {
+	public Localizaciones(String id, String nombre, float latitud, float longitud, boolean oculta, String pista, String imagenPista, String rutaId, Preguntas pregunta) {
 		this.id = id;
 		this.nombre = nombre;
 		this.latitud = latitud;
@@ -90,8 +89,12 @@ public class Localizaciones {
 		this.pista = pista;
 		this.imagenPista = imagenPista;
 		this.rutaId = rutaId;
+		this.pregunta=pregunta;
 	}
 
-
+	@Override
+	public String toString(){
+		return this.getId() + " " + this.getLatitud() + " " + this.longitud + " - " + this.getNombre() +" - " + this.getRutaId() + " - " + this.getPregunta().getId();
+	}
 
 }

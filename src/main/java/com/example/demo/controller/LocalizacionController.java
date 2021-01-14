@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Localizaciones;
+import com.example.demo.model.Preguntas;
 import com.example.demo.model.RutaUsuario;
+import com.example.demo.model.Rutas;
 import com.example.demo.repository.LocalizacionRepository;
+import com.example.demo.repository.RutaRepository;
 
 
 @RequestMapping("/localizaciones")
@@ -31,6 +35,9 @@ public class LocalizacionController {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private RutaRepository rutaRepository;
 
 	/***********************************************************
 	 ********************** CREATE *****************************
@@ -39,8 +46,12 @@ public class LocalizacionController {
 	@PostMapping("/add")
 	public void insertarLocalizacion(@RequestBody Localizaciones nuevaLocalizacion) {
 		localizacionRepository.save(nuevaLocalizacion);
+		//addRuta(nuevaLocalizacion);
 	}
-
+	
+	public void addRuta(Localizaciones nuevaLocalizacion){
+		Optional<Rutas> ruta = rutaRepository.findById(nuevaLocalizacion.getRutaId());		
+	}
 	/***********************************************************
 	 ********************** READ *******************************
 	 ***********************************************************/
@@ -68,16 +79,9 @@ public class LocalizacionController {
 	 }
 	
 	//por id ruta
-	@GetMapping("/getIdRuta/{ruta_id}")
-    public List<Localizaciones> getByIdRuta(@PathVariable String ruta_id) {
-		List<Localizaciones> listaLocalizaciones = localizacionRepository.findAll();
-		for(Localizaciones l : listaLocalizaciones){
-			
-			if(!l.getRutaId().equals(ruta_id)){
-				System.out.println("for "+ l.getRutaId());
-				listaLocalizaciones.remove(l);
-			}
-		}
+	@GetMapping("/getIdRuta/{rutaid}")
+    public List<Localizaciones> getByIdRuta(@PathVariable String rutaid) {
+		List<Localizaciones> listaLocalizaciones = localizacionRepository.findByRutaId(rutaid);
 		return listaLocalizaciones;
     }
 
@@ -85,8 +89,21 @@ public class LocalizacionController {
 	 ********************** UPDATE ******************************
 	 ***********************************************************/
 	//Editar una localización
+	//editar por id
 	@PutMapping("/editId/{id}")
 	public List<Localizaciones> editarPorId(@PathVariable String id, @RequestBody Localizaciones nuevaLocalizacion) {
+		/*Optional<Localizaciones> localizacion=localizacionRepository.findById(nuevaLocalizacion.getId());
+		
+		localizacion.setNombre(nuevaLocalizacion.getNombre());
+		localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
+		localizacion.setLatitud(nuevaLocalizacion.getLatitud());
+		localizacion.setLongitud(nuevaLocalizacion.getLongitud());
+		localizacion.setOculta(nuevaLocalizacion.isOculta());
+		localizacion.setPista(nuevaLocalizacion.getPista());
+		localizacion.setPregunta(nuevaLocalizacion.getPregunta());
+		localizacion.setRutaId(nuevaLocalizacion.getRutaId());
+		return localizacionRepository.save(localizacion);
+		*/
 		 List<Localizaciones> listaLocalizacioness = localizacionRepository.findAll();
 		 for (Localizaciones localizacion : listaLocalizacioness) {
 			 if(localizacion.getId().equals(id)){
@@ -95,7 +112,7 @@ public class LocalizacionController {
 				 localizacion.setLongitud(nuevaLocalizacion.getLongitud());
 				 localizacion.setOculta(nuevaLocalizacion.isOculta());
 				 localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
-				 localizacion.setListaPreguntas(nuevaLocalizacion.getListaPreguntas());
+				 localizacion.setPregunta(nuevaLocalizacion.getPregunta());
 				 localizacion.setPista(nuevaLocalizacion.getPista());
 				 localizacion.setRutaId(nuevaLocalizacion.getRutaId());
 			 }
@@ -104,9 +121,23 @@ public class LocalizacionController {
 
 		 return localizacionRepository.saveAll(listaLocalizacioness);
 	}
+	
+	//editar por nombre
 	@PutMapping("/editNombre/{nombre}")
-	public List<Localizaciones> editarPorNombre(@PathVariable String nombre, @RequestBody Localizaciones nuevaLocalizacion) {
-		 List<Localizaciones> listaLocalizacioness = localizacionRepository.findAll();
+	public Localizaciones editarPorNombre(@PathVariable String nombre, @RequestBody Localizaciones nuevaLocalizacion) {
+		
+		Localizaciones localizacion=(Localizaciones) localizacionRepository.findByNombre(nombre);
+		localizacion.setNombre(nuevaLocalizacion.getNombre());
+		localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
+		localizacion.setLatitud(nuevaLocalizacion.getLatitud());
+		localizacion.setLongitud(nuevaLocalizacion.getLongitud());
+		localizacion.setOculta(nuevaLocalizacion.isOculta());
+		localizacion.setPista(nuevaLocalizacion.getPista());
+		localizacion.setPregunta(nuevaLocalizacion.getPregunta());
+		localizacion.setRutaId(nuevaLocalizacion.getRutaId());
+		return localizacionRepository.save(localizacion);
+		/*
+		 List<Localizaciones> listaLocalizaciones = localizacionRepository.findAll();
 		 for (Localizaciones localizacion : listaLocalizacioness) {
 			 if(localizacion.getNombre().equals(nombre)){
 				 localizacion.setNombre(nuevaLocalizacion.getNombre());
@@ -114,14 +145,14 @@ public class LocalizacionController {
 				 localizacion.setLongitud(nuevaLocalizacion.getLongitud());
 				 localizacion.setOculta(nuevaLocalizacion.isOculta());
 				 localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
-				 localizacion.setListaPreguntas(nuevaLocalizacion.getListaPreguntas());
+				 localizacion.setPregunta(nuevaLocalizacion.getPregunta());
 				 localizacion.setPista(nuevaLocalizacion.getPista());
 				 localizacion.setRutaId(nuevaLocalizacion.getRutaId());
 			 }
 
 		 }
 
-		 return localizacionRepository.saveAll(listaLocalizacioness);
+		 return localizacionRepository.saveAll(listaLocalizacioness);*/
 
 	}
 
