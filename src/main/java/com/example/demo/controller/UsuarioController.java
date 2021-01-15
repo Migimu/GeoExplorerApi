@@ -61,20 +61,20 @@ public class UsuarioController {
 	}
 
 	//para hacer el login
-	@GetMapping("/getLogin/{usuario}/{contraseña}/{rol}")
-	public List<Usuarios> getUsuariosByUsuarioContraseñaRol(@PathVariable String usuario, @PathVariable String contraseña, @PathVariable String rol) {
-		return usuarioRepository.findUsuarioByUsuarioAndContraseñaAndRol(usuario,contraseña,rol);
+	@GetMapping("/getLogin/{usuario}/{contrasena}/{rol}")
+	public List<Usuarios> getUsuariosByUsuarioContrasenaRol(@PathVariable String usuario, @PathVariable String contrasena, @PathVariable String rol) {
+		return usuarioRepository.findUsuarioByUsuarioAndContrasenaAndRol(usuario,contrasena,rol);
 	}
 
 	/**************************************************/
 	/******************* MODIFICAR ********************/
 	/**************************************************/
 
-	@PutMapping("/editContraseñaId/{id}/{contraseña}")
-	public void updateContraseñaById(@PathVariable String id, @PathVariable String contraseña){
+	@PutMapping("/editContrasenaId/{id}/{contrasena}")
+	public void updateContrasenaById(@PathVariable String id, @PathVariable String contrasena){
 
 		Query query = new Query(Criteria.where("id").is(id));
-		Update update = new Update().set("contraseña", contraseña);
+		Update update = new Update().set("contrasena", contrasena);
 		mongoTemplate.updateFirst(query, update, Usuarios.class);
 
 	}
@@ -87,7 +87,7 @@ public class UsuarioController {
 		for (Usuarios usuario : listaUsuarios) {
 			if(usuario.getId().equals(id)){
 				usuario.setUsuario(nuevoUsuario.getUsuario());
-				usuario.setContraseña(nuevoUsuario.getContraseña());
+				usuario.setContrasena(nuevoUsuario.getContrasena());
 				usuario.setNombre(nuevoUsuario.getNombre());
 				usuario.setApellidos(nuevoUsuario.getApellidos());
 				usuario.setAvatar(nuevoUsuario.getAvatar());
