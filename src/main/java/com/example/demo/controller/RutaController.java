@@ -21,7 +21,7 @@ public class RutaController {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
+
 	@Autowired
 	private LocalizacionRepository localizacionRepository;
 
@@ -49,14 +49,14 @@ public class RutaController {
 	public List<Rutas> leerRutaNombre(@PathVariable String nombre) {
 		return rutaRepository.findByNombre(nombre);
 	}
-	
+
 	@GetMapping("/getCiudad/{ciudad}")
 	public List<Rutas> leerRutaCiudad(@PathVariable String ciudad) {
 		return rutaRepository.findRutaByCiudad(ciudad);
 	}
 
-	
-	
+
+
 	/***********************EDITAR***********************/
 
 	@PutMapping("/editId/{id}")
@@ -104,6 +104,8 @@ public class RutaController {
 
 	@DeleteMapping("/deleteAll")
 	public void eliminarRuta(@RequestBody Rutas ruta) {
+		//primero tiene que eliminar las localizaciones
+		localizacionRepository.deleteAll();
 		rutaRepository.deleteAll();
 	}
 
@@ -117,6 +119,14 @@ public class RutaController {
 
 	@DeleteMapping("/deleteNombre/{nombre}")
 	public void eliminarRutaNombre(@PathVariable String nombre) {
+
+		//cogemos la id de la ruta
+		List<Rutas>lRuta=rutaRepository.findByNombre(nombre);
+		//eliminamos las localizaciones
+		for(Rutas r : lRuta){
+			localizacionRepository.deleteByRutaId(r.getId());
+		}
+		//eliminamos la ruta
 		rutaRepository.deleteByNombre(nombre);
 	}
 
