@@ -81,7 +81,7 @@ public class UsuarioController {
 
 	/*DUDAS DE SI ES ASI*/
 	@PutMapping("/editUsuario/{id}")
-	public void bajarSalario(@PathVariable String id, @RequestBody Usuarios nuevoUsuario) {
+	public void editUsuarioId(@PathVariable String id, @RequestBody Usuarios nuevoUsuario) {
 
 		List<Usuarios> listaUsuarios = usuarioRepository.findAll();
 		for (Usuarios usuario : listaUsuarios) {

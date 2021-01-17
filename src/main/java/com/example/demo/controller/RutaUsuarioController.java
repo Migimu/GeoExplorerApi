@@ -117,7 +117,7 @@ public class RutaUsuarioController {
 
 	//si te cansas de la vida y quieres borrar todo
 	@DeleteMapping("/deleteAll")
-	public void deleteUsuarios(){
+	public void deleteRutaUsuarios(){
 		rutaUsuarioRepository.deleteAll();
 	}
 
