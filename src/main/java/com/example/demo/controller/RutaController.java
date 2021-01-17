@@ -11,6 +11,7 @@ import com.example.demo.model.Localizaciones;
 import com.example.demo.model.Rutas;
 import com.example.demo.repository.LocalizacionRepository;
 import com.example.demo.repository.RutaRepository;
+import com.example.demo.repository.RutaUsuarioRepository;
 
 @RequestMapping("/rutas")
 @RestController
@@ -25,6 +26,8 @@ public class RutaController {
 	@Autowired
 	private LocalizacionRepository localizacionRepository;
 
+	@Autowired
+	private RutaUsuarioRepository rutaUsuarioRepository;
 
 	/***********************CREAR***********************/
 
@@ -106,6 +109,9 @@ public class RutaController {
 	public void eliminarRuta(@RequestBody Rutas ruta) {
 		//primero tiene que eliminar las localizaciones
 		localizacionRepository.deleteAll();
+		//eliminamos rutaUsuarios (ranking)
+		rutaUsuarioRepository.deleteAll();
+		//eliminamos las rutas
 		rutaRepository.deleteAll();
 	}
 
@@ -113,6 +119,8 @@ public class RutaController {
 	public void eliminarRutaId(@PathVariable String id) {
 		//primero tiene que eliminar las localizaciones
 		localizacionRepository.deleteByRutaId(id);
+		//eliminamos las rutaUsuario
+		rutaUsuarioRepository.deleteByRutaId(id);
 		//eliminamos la ruta
 		rutaRepository.deleteById(id);
 	}
@@ -125,6 +133,8 @@ public class RutaController {
 		//eliminamos las localizaciones
 		for(Rutas r : lRuta){
 			localizacionRepository.deleteByRutaId(r.getId());
+			//eliminamos las rutaUsuario
+			rutaUsuarioRepository.deleteByRutaId(r.getId());
 		}
 		//eliminamos la ruta
 		rutaRepository.deleteByNombre(nombre);
