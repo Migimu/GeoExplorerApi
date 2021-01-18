@@ -24,44 +24,42 @@ public class RutaController {
 	private MongoTemplate mongoTemplate;
 
 	@Autowired
-	private LocalizacionRepository localizacionRepository;
+	private LocalizacionRepository localizacionRepository;//necesario para updates y deletes
 
 	@Autowired
-	private RutaUsuarioRepository rutaUsuarioRepository;
+	private RutaUsuarioRepository rutaUsuarioRepository;//necesario para updates y deletes ya que están relacionados
 
 	/***********************CREAR***********************/
-
+	//crear ruta
 	@PostMapping("/add")
 	public void insertarRuta(@RequestBody Rutas nuevaRuta) {
 		rutaRepository.save(nuevaRuta);
 	}
 
 	/***********************LEER***********************/
-
+	//obtener todas las rutas
 	@GetMapping("/getAll")
 	public List<Rutas> leerRutas() {
 		return rutaRepository.findAll();
 	}
-
+	//obtener ruta por Id
 	@GetMapping("/getId/{id}")
 	public Optional<Rutas> leerRutaId(@PathVariable String id) {
 		return rutaRepository.findById(id);
 	}
-
+	//obtener todas las rutas de nombre X
 	@GetMapping("/getNombre/{nombre}")
 	public List<Rutas> leerRutaNombre(@PathVariable String nombre) {
 		return rutaRepository.findByNombre(nombre);
 	}
-
+	//obtener rutas de una ciudad
 	@GetMapping("/getCiudad/{ciudad}")
 	public List<Rutas> leerRutaCiudad(@PathVariable String ciudad) {
 		return rutaRepository.findRutaByCiudad(ciudad);
 	}
 
-
-
 	/***********************EDITAR***********************/
-
+	//editar una ruta por su id
 	@PutMapping("/editId/{id}")
 	public List<Rutas> editarRutaId(@PathVariable String id, @RequestBody Rutas ruta){
 		List<Rutas> rutas = rutaRepository.findAllById(id);
@@ -78,7 +76,7 @@ public class RutaController {
 		}
 		return rutaRepository.saveAll(rutas);
 	}
-
+	//editar ruta por su nombre
 	@PutMapping("/editNombre/{nombre}")
 	public List<Rutas> editarRutaNombre(@PathVariable String nombre, @RequestBody Rutas ruta){
 		List<Rutas> rutas = rutaRepository.findByNombre(nombre);
@@ -99,12 +97,12 @@ public class RutaController {
 	//update localizaciones de la ruta
 	@PutMapping("/editLocalizacion")
 	public Rutas editarRutaLocalizacion(@RequestBody Rutas ruta){
-		List<Localizaciones> listaLocalizaciones = localizacionRepository.findByRutaId(ruta.getId());
-		ruta.setListaLocalizaciones(listaLocalizaciones);
-		return rutaRepository.save(ruta);
+		List<Localizaciones> listaLocalizaciones = localizacionRepository.findByRutaId(ruta.getId());//obtenemos las localizaciones de la ruta
+		ruta.setListaLocalizaciones(listaLocalizaciones);//pasamos las localizaciones al array de localizaciones de la ruta
+		return rutaRepository.save(ruta);//guardamos los cambios
 	}
 	/***********************ELIMINAR***********************/
-
+	//eliminamos todas las rutas
 	@DeleteMapping("/deleteAll")
 	public void eliminarRuta(@RequestBody Rutas ruta) {
 		//primero tiene que eliminar las localizaciones
@@ -114,7 +112,7 @@ public class RutaController {
 		//eliminamos las rutas
 		rutaRepository.deleteAll();
 	}
-
+	//eliminar por id
 	@DeleteMapping("/deleteId/{id}")
 	public void eliminarRutaId(@PathVariable String id) {
 		//primero tiene que eliminar las localizaciones
@@ -124,19 +122,19 @@ public class RutaController {
 		//eliminamos la ruta
 		rutaRepository.deleteById(id);
 	}
-
+	//eliminar por nombre
 	@DeleteMapping("/deleteNombre/{nombre}")
 	public void eliminarRutaNombre(@PathVariable String nombre) {
 
-		//cogemos la id de la ruta
+		//cogemos las rutas que deseamos eliminar por nombre
 		List<Rutas>lRuta=rutaRepository.findByNombre(nombre);
-		//eliminamos las localizaciones
+		//eliminamos las localizaciones recorriendo las rutas 
 		for(Rutas r : lRuta){
-			localizacionRepository.deleteByRutaId(r.getId());
-			//eliminamos las rutaUsuario
-			rutaUsuarioRepository.deleteByRutaId(r.getId());
+			localizacionRepository.deleteByRutaId(r.getId());//eliminar localizaciones
+			
+			rutaUsuarioRepository.deleteByRutaId(r.getId());//eliminamos las rutaUsuario
 		}
-		//eliminamos la ruta
+		//eliminamos las rutas
 		rutaRepository.deleteByNombre(nombre);
 	}
 

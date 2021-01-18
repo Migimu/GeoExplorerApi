@@ -55,18 +55,18 @@ public class LocalizacionController {
 	/***********************************************************
 	 ********************** READ *******************************
 	 ***********************************************************/
-	//todas
+	//recoger todas las localizaciones
 	@GetMapping("/getAll")
 	public List<Localizaciones> allLocalizaciones(){
 		return localizacionRepository.findAll();
 	}
 
-	//por nombre
+	//recoger localizaciones por nombre
 	@GetMapping("/getNombre/{nombre}")
 	public List<Localizaciones> getByName(@PathVariable String nombre) {
 		return localizacionRepository.findByNombre(nombre);
 	}
-	//por id
+	//recoger localizaciones por su id
 	@GetMapping("/getId/{id}")
     public Localizaciones getById(@PathVariable String id) {
       return localizacionRepository.findById(id).orElse(null);
@@ -78,7 +78,7 @@ public class LocalizacionController {
 	    return listaLocalizaciones;
 	 }
 	
-	//por id ruta
+	//recoger localizaciones por id ruta (todas las localizaciones de una ruta)
 	@GetMapping("/getIdRuta/{rutaid}")
     public List<Localizaciones> getByIdRuta(@PathVariable String rutaid) {
 		List<Localizaciones> listaLocalizaciones = localizacionRepository.findByRutaId(rutaid);
@@ -104,6 +104,7 @@ public class LocalizacionController {
 		localizacion.setRutaId(nuevaLocalizacion.getRutaId());
 		return localizacionRepository.save(localizacion);
 		*/
+		
 		 List<Localizaciones> listaLocalizacioness = localizacionRepository.findAll();
 		 for (Localizaciones localizacion : listaLocalizacioness) {
 			 if(localizacion.getId().equals(id)){
@@ -136,24 +137,6 @@ public class LocalizacionController {
 		localizacion.setPregunta(nuevaLocalizacion.getPregunta());
 		localizacion.setRutaId(nuevaLocalizacion.getRutaId());
 		return localizacionRepository.save(localizacion);
-		/*
-		 List<Localizaciones> listaLocalizaciones = localizacionRepository.findAll();
-		 for (Localizaciones localizacion : listaLocalizacioness) {
-			 if(localizacion.getNombre().equals(nombre)){
-				 localizacion.setNombre(nuevaLocalizacion.getNombre());
-				 localizacion.setLatitud(nuevaLocalizacion.getLatitud());
-				 localizacion.setLongitud(nuevaLocalizacion.getLongitud());
-				 localizacion.setOculta(nuevaLocalizacion.isOculta());
-				 localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
-				 localizacion.setPregunta(nuevaLocalizacion.getPregunta());
-				 localizacion.setPista(nuevaLocalizacion.getPista());
-				 localizacion.setRutaId(nuevaLocalizacion.getRutaId());
-			 }
-
-		 }
-
-		 return localizacionRepository.saveAll(listaLocalizacioness);*/
-
 	}
 
 	/***********************************************************
@@ -163,7 +146,7 @@ public class LocalizacionController {
 	 @DeleteMapping("/deleteAll") void deleteAll() {
 		localizacionRepository.deleteAll();
 	}
-	//Eliminar UNA localizacion
+	//Eliminar UNA localizacion por su id
 	@DeleteMapping("/deleteId/{id}") void deleteLocalizacionId(@PathVariable String id) {
 		localizacionRepository.deleteById(id);
 	}

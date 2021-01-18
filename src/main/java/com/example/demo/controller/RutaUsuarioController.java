@@ -27,7 +27,7 @@ public class RutaUsuarioController {
 	/**************************************************/
 	/******************** INSERTAR ********************/
 	/**************************************************/
-
+	//crear rutaUsuario
 	@PostMapping("/add")
 	public void insertarUsuario(@RequestBody RutaUsuario nuevaRutaUsuario) {
 		rutaUsuarioRepository.save(nuevaRutaUsuario);
@@ -36,13 +36,13 @@ public class RutaUsuarioController {
 	/**************************************************/
 	/********************** LEER **********************/
 	/**************************************************/
-
+	//obtener todos los datos
 	@GetMapping("/getAll")
 	public List<RutaUsuario> getRutaUsuario() {
 		List<RutaUsuario> listaRutasUsuarios = rutaUsuarioRepository.findAll();
 		return listaRutasUsuarios;
 	}
-
+	//obtener las rutasUsuario por id
 	@GetMapping("/getId/{id}")
 	public Optional<RutaUsuario> getById(@PathVariable String id){
 		return rutaUsuarioRepository.findById(id);
@@ -66,7 +66,7 @@ public class RutaUsuarioController {
 	/******************* MODIFICAR ********************/
 	/**************************************************/
 
-
+	//editar la puntuacion de un usuario-ruta
 	@PutMapping("/editPuntuacion/{id}/{puntuacion}")
 	public void updatePuntuacion(@PathVariable String id, @PathVariable int puntuacion) {
 
@@ -76,7 +76,7 @@ public class RutaUsuarioController {
 
 	 }
 
-
+	//editar si la partida está activa 
 	@PutMapping("/editRutaUsuarioActivar/{id}")
 	public void conectarUsuario(@PathVariable String id){
 
@@ -85,7 +85,7 @@ public class RutaUsuarioController {
 		mongoTemplate.updateFirst(query, update, RutaUsuario.class);
 
 	}
-
+	//editar si la partida ha acabado
 	@PutMapping("/editRutaUsuarioDesactivar/{id}")
 	public void desconectarUsuario(@PathVariable String id){
 
@@ -99,23 +99,23 @@ public class RutaUsuarioController {
 	/**************************************************/
 	/********************* BORRAR *********************/
 	/**************************************************/
-
+	//eliminar por id
 	@DeleteMapping("/deleteId/{id}")
 	public void delete(@PathVariable String id) {
 		rutaUsuarioRepository.deleteById(id);
 	}
-
+	//eliminar por id del usuario
 	@DeleteMapping("/deleteUsuarioId/{id}")
 	public void deleteByUsuarioId(@PathVariable String id) {
 		rutaUsuarioRepository.deleteByUsuarioId(id);
 	}
-
+	//eliminar por id de la ruta
 	@DeleteMapping("/deleteRutaId/{id}")
 	public void deleteByRutaId(@PathVariable String id) {
 		rutaUsuarioRepository.deleteByRutaId(id);
 	}
 
-	//si te cansas de la vida y quieres borrar todo
+	//borrar todo
 	@DeleteMapping("/deleteAll")
 	public void deleteRutaUsuarios(){
 		rutaUsuarioRepository.deleteAll();
