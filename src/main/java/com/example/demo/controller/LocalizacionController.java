@@ -46,11 +46,11 @@ public class LocalizacionController {
 	@PostMapping("/add")
 	public void insertarLocalizacion(@RequestBody Localizaciones nuevaLocalizacion) {
 		localizacionRepository.save(nuevaLocalizacion);
-		//addRuta(nuevaLocalizacion);
+		addRuta(nuevaLocalizacion);
 	}
 	
 	public void addRuta(Localizaciones nuevaLocalizacion){
-		Optional<Rutas> ruta = rutaRepository.findById(nuevaLocalizacion.getRutaId());		
+		Rutas ruta = rutaRepository.findById(nuevaLocalizacion.getRutaId()).orElse(null);		
 	}
 	/***********************************************************
 	 ********************** READ *******************************
@@ -91,8 +91,8 @@ public class LocalizacionController {
 	//Editar una localización
 	//editar por id
 	@PutMapping("/editId/{id}")
-	public List<Localizaciones> editarPorId(@PathVariable String id, @RequestBody Localizaciones nuevaLocalizacion) {
-		/*Optional<Localizaciones> localizacion=localizacionRepository.findById(nuevaLocalizacion.getId());
+	public Localizaciones editarPorId(@PathVariable String id, @RequestBody Localizaciones nuevaLocalizacion) {
+		Localizaciones localizacion=localizacionRepository.findById(nuevaLocalizacion.getId()).orElse(null);
 		
 		localizacion.setNombre(nuevaLocalizacion.getNombre());
 		localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
@@ -103,24 +103,7 @@ public class LocalizacionController {
 		localizacion.setPregunta(nuevaLocalizacion.getPregunta());
 		localizacion.setRutaId(nuevaLocalizacion.getRutaId());
 		return localizacionRepository.save(localizacion);
-		*/
-		
-		 List<Localizaciones> listaLocalizacioness = localizacionRepository.findAll();
-		 for (Localizaciones localizacion : listaLocalizacioness) {
-			 if(localizacion.getId().equals(id)){
-				 localizacion.setNombre(nuevaLocalizacion.getNombre());
-				 localizacion.setLatitud(nuevaLocalizacion.getLatitud());
-				 localizacion.setLongitud(nuevaLocalizacion.getLongitud());
-				 localizacion.setOculta(nuevaLocalizacion.isOculta());
-				 localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
-				 localizacion.setPregunta(nuevaLocalizacion.getPregunta());
-				 localizacion.setPista(nuevaLocalizacion.getPista());
-				 localizacion.setRutaId(nuevaLocalizacion.getRutaId());
-			 }
-
-		 }
-
-		 return localizacionRepository.saveAll(listaLocalizacioness);
+	
 	}
 	
 	//editar por nombre

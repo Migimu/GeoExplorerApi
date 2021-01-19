@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -44,9 +43,9 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/getId/{id}")
-	public Optional<Usuarios> getById(@PathVariable String id){
+	public Usuarios getById(@PathVariable String id){
 
-		return usuarioRepository.findById(id);
+		return usuarioRepository.findById(id).orElse(null);
 	}
 
 	//lo mismo que el getById, pero en vez de un optional, devuelve un list

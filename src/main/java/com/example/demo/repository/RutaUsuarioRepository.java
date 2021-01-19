@@ -16,4 +16,5 @@ public interface RutaUsuarioRepository extends MongoRepository<RutaUsuario, Stri
 
 	List<RutaUsuario> findRutaUsuarioByRutaIdOrderByPuntuacionDesc(String rutaId);
 
+
 }

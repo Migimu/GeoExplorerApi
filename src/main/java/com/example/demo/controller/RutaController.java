@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -44,8 +43,8 @@ public class RutaController {
 	}
 	//obtener ruta por Id
 	@GetMapping("/getId/{id}")
-	public Optional<Rutas> leerRutaId(@PathVariable String id) {
-		return rutaRepository.findById(id);
+	public Rutas leerRutaId(@PathVariable String id) {
+		return rutaRepository.findById(id).orElse(null);
 	}
 	//obtener todas las rutas de nombre X
 	@GetMapping("/getNombre/{nombre}")

@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -44,8 +42,8 @@ public class RutaUsuarioController {
 	}
 	//obtener las rutasUsuario por id
 	@GetMapping("/getId/{id}")
-	public Optional<RutaUsuario> getById(@PathVariable String id){
-		return rutaUsuarioRepository.findById(id);
+	public RutaUsuario getById(@PathVariable String id){
+		return rutaUsuarioRepository.findById(id).orElse(null);
 	}
 
 	//lo mismo que el getById, pero en vez de un optional, devuelve un list
@@ -60,7 +58,6 @@ public class RutaUsuarioController {
 	public List<RutaUsuario> getAllByRutaId(@PathVariable String id) {
 		return rutaUsuarioRepository.findRutaUsuarioByRutaIdOrderByPuntuacionDesc(id);
 	}
-
 
 	/**************************************************/
 	/******************* MODIFICAR ********************/
