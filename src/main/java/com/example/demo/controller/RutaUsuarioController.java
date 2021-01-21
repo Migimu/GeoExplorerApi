@@ -53,7 +53,7 @@ public class RutaUsuarioController {
 	}
 
 
-	/*ranking de una ruta por la id*/
+	/*ranking de una ruta por la id de la RUTA*/
 	@GetMapping("/getAllByRutaId/{id}")
 	public List<RutaUsuario> getAllByRutaId(@PathVariable String id) {
 		return rutaUsuarioRepository.findRutaUsuarioByRutaIdOrderByPuntuacionDesc(id);

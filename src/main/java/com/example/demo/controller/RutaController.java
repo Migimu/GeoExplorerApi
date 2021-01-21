@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.Localizaciones;
+import com.example.demo.model.RutaUsuario;
 import com.example.demo.model.Rutas;
 import com.example.demo.repository.LocalizacionRepository;
 import com.example.demo.repository.RutaRepository;
@@ -56,7 +60,19 @@ public class RutaController {
 	public List<Rutas> leerRutaCiudad(@PathVariable String ciudad) {
 		return rutaRepository.findRutaByCiudad(ciudad);
 	}
-
+	
+	//obtener rutas de una ciudad
+	@GetMapping("/getCiudades")
+	public List<String> leerRutaCiudades() {
+		List<Rutas>ciudades = rutaRepository.findDistinctByCiudad();
+		//List<Rutas>ciudades = rutaRepository.findCiudadDistinctByCiudad();
+		List<String> lCiudades=null;
+		System.out.println("Ciudades " + ciudades);
+		for (Rutas r : ciudades){
+			lCiudades.add(r.getCiudad());
+		}
+		return lCiudades;
+	}
 	/***********************EDITAR***********************/
 	//editar una ruta por su id
 	@PutMapping("/editId/{id}")

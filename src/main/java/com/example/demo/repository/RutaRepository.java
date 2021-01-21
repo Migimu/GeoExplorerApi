@@ -16,5 +16,9 @@ public interface RutaRepository extends MongoRepository<Rutas, String>{
 
 	List<Rutas> findRutaByCiudad(String ciudad);
 
+	List<Rutas> findDistinctByCiudad();
+
+	//List<Rutas> findCiudadDistinctByCiudad();
+
 	
 }
