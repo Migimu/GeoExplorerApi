@@ -14,7 +14,7 @@ public class Preguntas {
 	private String respuesta3;
 	private int correcta;
 	private String imagen;
-	private String localizacion_id;
+	//private String localizacion_id;
 
 	public String getId() {
 		return id;
@@ -37,9 +37,9 @@ public class Preguntas {
 	public String getImagen() {
 		return imagen;
 	}
-	public String getLocalizacion_id() {
+	/*public String getLocalizacion_id() {
 		return localizacion_id;
-	}
+	}*/
 
 	public void setId(String id) {
 		this.id = id;
@@ -62,16 +62,16 @@ public class Preguntas {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-	public void setLocalizacion_id(String localizacion_id) {
+	/*public void setLocalizacion_id(String localizacion_id) {
 		this.localizacion_id = localizacion_id;
-	}
+	}*/
 
 	public Preguntas(){
 
 	}
 
 	public Preguntas(String id, String pregunta, String respuesta1, String respuesta2, String respuesta3, int correcta,
-			String imagen, String localizacion_id) {
+			String imagen) {
 		this.id = id;
 		this.pregunta = pregunta;
 		this.respuesta1 = respuesta1;
@@ -79,7 +79,7 @@ public class Preguntas {
 		this.respuesta3 = respuesta3;
 		this.correcta = correcta;
 		this.imagen = imagen;
-		this.localizacion_id = localizacion_id;
+		//this.localizacion_id = localizacion_id;
 	}
 
 

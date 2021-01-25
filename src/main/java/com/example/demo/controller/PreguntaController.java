@@ -50,7 +50,7 @@ public class PreguntaController {
 			pregunta1.setRespuesta2(pregunta.getRespuesta3());
 			pregunta1.setCorrecta(pregunta.getCorrecta());
 			pregunta1.setImagen(pregunta.getImagen());
-			pregunta1.setLocalizacion_id(pregunta.getLocalizacion_id());
+		//	pregunta1.setLocalizacion_id(pregunta.getLocalizacion_id());
 		}
 		return PreguntaRepository.saveAll(preguntas);
 	}
