@@ -60,7 +60,7 @@ public class RutaController {
 	public List<Rutas> leerRutaCiudad(@PathVariable String ciudad) {
 		return rutaRepository.findRutaByCiudad(ciudad);
 	}
-	
+
 	//obtener rutas de una ciudad
 	@GetMapping("/getCiudades")
 	public List<String> leerRutaCiudades() {
@@ -73,6 +73,15 @@ public class RutaController {
 		}
 		return lCiudades;
 	}
+
+	//obtener id de la ultima ruta creada
+	@GetMapping("/getUltimaRuta")
+	public Rutas getUltimaRuta() {
+		Rutas ruta = rutaRepository.findTopByOrderByIdDesc();
+
+		return ruta;
+	}
+
 	/***********************EDITAR***********************/
 	//editar una ruta por su id
 	@PutMapping("/editId/{id}")
@@ -90,6 +99,16 @@ public class RutaController {
 			ruta1.setListaLocalizaciones(ruta.getListaLocalizaciones());
 		}
 		return rutaRepository.saveAll(rutas);
+	}
+	//editar listado localiaciones por la id de la ruta
+	@PutMapping("/editIdListado/{id}")
+	public Rutas editarRutaIdLocalizaciones(@PathVariable String id){
+		Rutas ruta =rutaRepository.findById(id).orElse(null);
+		List<Localizaciones> lista = localizacionRepository.findByRutaId(id);
+		System.out.println("LA RUTA " + ruta.getId() + " lista " + lista.size());
+		ruta.setListaLocalizaciones(lista);
+		System.out.println("RUTA LISTA MODIFICADA " + ruta.getListaLocalizaciones());
+		return rutaRepository.save(ruta);
 	}
 	//editar ruta por su nombre
 	@PutMapping("/editNombre/{nombre}")
@@ -116,6 +135,7 @@ public class RutaController {
 		ruta.setListaLocalizaciones(listaLocalizaciones);//pasamos las localizaciones al array de localizaciones de la ruta
 		return rutaRepository.save(ruta);//guardamos los cambios
 	}
+
 	/***********************ELIMINAR***********************/
 	//eliminamos todas las rutas
 	@DeleteMapping("/deleteAll")
@@ -143,10 +163,10 @@ public class RutaController {
 
 		//cogemos las rutas que deseamos eliminar por nombre
 		List<Rutas>lRuta=rutaRepository.findByNombre(nombre);
-		//eliminamos las localizaciones recorriendo las rutas 
+		//eliminamos las localizaciones recorriendo las rutas
 		for(Rutas r : lRuta){
 			localizacionRepository.deleteByRutaId(r.getId());//eliminar localizaciones
-			
+
 			rutaUsuarioRepository.deleteByRutaId(r.getId());//eliminamos las rutaUsuario
 		}
 		//eliminamos las rutas

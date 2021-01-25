@@ -35,7 +35,7 @@ public class LocalizacionController {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
+
 	@Autowired
 	private RutaRepository rutaRepository;
 
@@ -46,12 +46,16 @@ public class LocalizacionController {
 	@PostMapping("/add")
 	public void insertarLocalizacion(@RequestBody Localizaciones nuevaLocalizacion) {
 		localizacionRepository.save(nuevaLocalizacion);
-		addRuta(nuevaLocalizacion);
+		//addRuta(nuevaLocalizacion);
 	}
-	
-	public void addRuta(Localizaciones nuevaLocalizacion){
-		Rutas ruta = rutaRepository.findById(nuevaLocalizacion.getRutaId()).orElse(null);		
-	}
+
+	/*public void addRuta(Localizaciones nuevaLocalizacion){
+		Rutas ruta = rutaRepository.findById(nuevaLocalizacion.getRutaId()).orElse(null);
+		List<Localizaciones>lista=ruta.getListaLocalizaciones();
+		lista.add(nuevaLocalizacion);
+		ruta.setListaLocalizaciones(lista);
+		rutaRepository.save(ruta);
+	}*/
 	/***********************************************************
 	 ********************** READ *******************************
 	 ***********************************************************/
@@ -77,7 +81,7 @@ public class LocalizacionController {
 		List<Localizaciones> listaLocalizaciones = localizacionRepository.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
 	    return listaLocalizaciones;
 	 }
-	
+
 	//recoger localizaciones por id ruta (todas las localizaciones de una ruta)
 	@GetMapping("/getIdRuta/{rutaid}")
     public List<Localizaciones> getByIdRuta(@PathVariable String rutaid) {
@@ -93,7 +97,7 @@ public class LocalizacionController {
 	@PutMapping("/editId/{id}")
 	public Localizaciones editarPorId(@PathVariable String id, @RequestBody Localizaciones nuevaLocalizacion) {
 		Localizaciones localizacion=localizacionRepository.findById(nuevaLocalizacion.getId()).orElse(null);
-		
+
 		localizacion.setNombre(nuevaLocalizacion.getNombre());
 		localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
 		localizacion.setLatitud(nuevaLocalizacion.getLatitud());
@@ -103,13 +107,13 @@ public class LocalizacionController {
 		localizacion.setPregunta(nuevaLocalizacion.getPregunta());
 		localizacion.setRutaId(nuevaLocalizacion.getRutaId());
 		return localizacionRepository.save(localizacion);
-	
+
 	}
-	
+
 	//editar por nombre
 	@PutMapping("/editNombre/{nombre}")
 	public Localizaciones editarPorNombre(@PathVariable String nombre, @RequestBody Localizaciones nuevaLocalizacion) {
-		
+
 		Localizaciones localizacion=(Localizaciones) localizacionRepository.findByNombre(nombre);
 		localizacion.setNombre(nuevaLocalizacion.getNombre());
 		localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
@@ -137,5 +141,5 @@ public class LocalizacionController {
 	@DeleteMapping("/deleteNombre/{nombre}") void deleteLocalizacionNombre(@PathVariable String nombre) {
 		localizacionRepository.deleteByNombre(nombre);
 	}
-	
+
 }

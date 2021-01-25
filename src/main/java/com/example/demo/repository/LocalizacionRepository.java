@@ -17,6 +17,6 @@ public interface LocalizacionRepository  extends MongoRepository<Localizaciones,
 
 	void deleteByRutaId(String rutaId);
 
-	List<Localizaciones> findByRutaId(String ruta_);
+	List<Localizaciones> findByRutaId(String ruta);
 
 }
