@@ -85,27 +85,28 @@ public class RutaController {
 	/***********************EDITAR***********************/
 	//editar una ruta por su id
 	@PutMapping("/editId/{id}")
-	public List<Rutas> editarRutaId(@PathVariable String id, @RequestBody Rutas ruta){
-		List<Rutas> rutas = rutaRepository.findAllById(id);
-		for (Rutas ruta1 : rutas){
-			ruta1.setNombre(ruta.getNombre());
-			ruta1.setCiudad(ruta.getCiudad());
-			ruta1.setTematica(ruta.getTematica());
-			ruta1.setDuracion(ruta.getDuracion());
-			ruta1.setDescripcion(ruta.getDescripcion());
-			ruta1.setTransporte(ruta.getTransporte());
-			ruta1.setImagen(ruta.getImagen());
-			ruta1.setDificultad(ruta.getDificultad());
-			ruta1.setListaLocalizaciones(ruta.getListaLocalizaciones());
-		}
-		return rutaRepository.saveAll(rutas);
+	public Rutas editarRutaId(@PathVariable String id, @RequestBody Rutas ruta){
+		Rutas rutas = rutaRepository.findById(id).orElse(null);
+		List<Localizaciones> lista = localizacionRepository.findByRutaId(id);//obtenemos la lista de localizaciones
+		rutas.setNombre(ruta.getNombre());
+		rutas.setCiudad(ruta.getCiudad());
+		rutas.setTematica(ruta.getTematica());
+		rutas.setDuracion(ruta.getDuracion());
+		rutas.setDescripcion(ruta.getDescripcion());
+		rutas.setTransporte(ruta.getTransporte());
+		rutas.setImagen(ruta.getImagen());
+		rutas.setDificultad(ruta.getDificultad());
+		rutas.setListaLocalizaciones(lista);
+		
+		return rutaRepository.save(rutas);
+		
 	}
 	//editar listado localiaciones por la id de la ruta
 	@PutMapping("/editIdListado/{id}")
 	public Rutas editarRutaIdLocalizaciones(@PathVariable String id){
 		Rutas ruta =rutaRepository.findById(id).orElse(null);
 		List<Localizaciones> lista = localizacionRepository.findByRutaId(id);
-		System.out.println("LA RUTA " + ruta.getId() + " lista " + lista.size());
+		System.out.println("LA RUTA " + ruta.getDescripcion() + " lista " + lista.size());
 		ruta.setListaLocalizaciones(lista);
 		System.out.println("RUTA LISTA MODIFICADA " + ruta.getListaLocalizaciones());
 		return rutaRepository.save(ruta);
