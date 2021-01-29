@@ -96,8 +96,7 @@ public class LocalizacionController {
 	//editar por id
 	@PutMapping("/editId/{id}")
 	public Localizaciones editarPorId(@PathVariable String id, @RequestBody Localizaciones nuevaLocalizacion) {
-		Localizaciones localizacion=localizacionRepository.findById(nuevaLocalizacion.getId()).orElse(null);
-
+		Localizaciones localizacion=localizacionRepository.findById(id).orElse(null);
 		localizacion.setNombre(nuevaLocalizacion.getNombre());
 		localizacion.setImagen_pista(nuevaLocalizacion.getImagen_pista());
 		localizacion.setLatitud(nuevaLocalizacion.getLatitud());
