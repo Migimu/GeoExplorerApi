@@ -27,8 +27,8 @@ public class RutaUsuarioController {
 	/**************************************************/
 	//crear rutaUsuario
 	@PostMapping("/add")
-	public void insertarUsuario(@RequestBody RutaUsuario nuevaRutaUsuario) {
-		rutaUsuarioRepository.save(nuevaRutaUsuario);
+	public RutaUsuario insertarUsuario(@RequestBody RutaUsuario nuevaRutaUsuario) {
+		return rutaUsuarioRepository.save(nuevaRutaUsuario);
 	}
 
 	/**************************************************/
